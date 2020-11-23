@@ -36,8 +36,15 @@ namespace Intelutions.Permisos.Controllers
                 return BadRequest();
             }
 
-            var pe = new Permission { Name = permissionData.Name, LastName = permissionData.LastName, PermissionTypeId = permissionData.PermissionType, PermissionDate = permissionData.PermissionDate };            
-            pe.PermissionId = id;
+            var pe = new Permission
+            {
+                PermissionId = id,
+                Name = permissionData.Name,
+                LastName = permissionData.LastName,
+                PermissionTypeId = permissionData.PermissionType,
+                PermissionDate = permissionData.PermissionDate,
+                PermissionType = new PermissionType { PermissionTypeId = permissionData.PermissionType }
+            };
 
             _permissionsRepository.Edit(pe);
             return Ok();
@@ -66,8 +73,15 @@ namespace Intelutions.Permisos.Controllers
                 return BadRequest();
             }
 
-            var pe = new Permission { Name = permissionData.Name, LastName = permissionData.LastName, PermissionTypeId = permissionData.PermissionType, PermissionDate = permissionData.PermissionDate };
-            
+            var pe = new Permission
+            {
+                Name = permissionData.Name,
+                LastName = permissionData.LastName,
+                PermissionTypeId = permissionData.PermissionType,
+                PermissionDate = permissionData.PermissionDate,
+                PermissionType = new PermissionType { PermissionTypeId = permissionData.PermissionType }
+            };
+
             int data = await _permissionsRepository.Create(pe);
             return Ok(data);
         }
@@ -77,8 +91,9 @@ namespace Intelutions.Permisos.Controllers
         public async Task<ActionResult<int>> Delete(int id)
         {
             if (id == 0)
-
+            {
                 return BadRequest();
+            }
 
             var data = await _permissionsRepository.Delete(id);
             return Ok(data);
