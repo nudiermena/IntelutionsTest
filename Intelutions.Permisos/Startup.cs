@@ -90,7 +90,9 @@ namespace Intelutions.Permisos
                 }
                 else
                 {
-                    await next.Invoke();
+                    context.Response.Headers.Add("Access-Control-Allow-Origin", new[] { (string)context.Request.Headers["Origin"] });                    
+                    context.Response.Headers.Add("Access-Control-Allow-Methods", new[] { "GET, POST, PUT, DELETE, OPTIONS" });
+                    await next.Invoke();                  
                 }
             });
 
